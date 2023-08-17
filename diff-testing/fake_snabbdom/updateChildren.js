@@ -9,7 +9,7 @@ function checkSame(oldVnode, newVnode) {
 // 该文件用于在新旧节点都有子节点children的情况下进行精细化比较
 export default function updateChildren(parentElm, oldVnode, newVnode) {
   let oldStartIdx = 0; // 旧前节点所在索引
-  let newStartIdx = 0; // 新钱节点所在索引
+  let newStartIdx = 0; // 新前节点所在索引
   let oldEndIdx = oldVnode.length -1; // 旧后节点所在索引
   let newEndIdx = newVnode.length -1; // 新后节点所在索引
 
@@ -65,6 +65,7 @@ export default function updateChildren(parentElm, oldVnode, newVnode) {
     } else {
       // 若上述四种策略皆不符合，则使用循环遍历方法进行比较
       // 先将旧节点的key保存
+      console.log('都不相同，走循环');
       if(!keyMap) {
         keyMap = {}
         for (let i = oldStartIdx; i <= oldEndIdx; i++) {
@@ -98,18 +99,22 @@ export default function updateChildren(parentElm, oldVnode, newVnode) {
   }
   // 当旧节点的开始索引大于其结束索引时,即新节点未遍历完，则表示新节点有新增
   if(oldStartIdx >= oldEndIdx) {
+    console.log('旧节点遍历完了，新节点还有剩余');
     // 则遍历剩余新节点,依次插入到老节点的最后一个节点后面即可
-    for (let i = newEndIdx; i < newVnode.length; i++) {
+    for (let i = newStartIdx; i <= newEndIdx; i++) {
       // 先将新虚拟节点创建新dom
       let newDom = createElm(newVnode[i])
-      // 插入到老节点的最后一个节点后面
-      parentElm.insertBefore(newDom, oldVnode[oldEndIdx].elm)
+      // 插入到老节点的开始节点后面
+      parentElm.insertBefore(createElm(newVnode[i]), oldVnode[oldStartIdx].elm)
     }
   } else if(newStartIdx >= newEndIdx) {
+    console.log('新节点遍历完了，旧节点还有剩余');
     // 当新节点的开始索引大于其结束索引时,即旧节点未遍历完，则表示新节点有删减
     // 则依次将老节点dom上的剩下节点删掉即可
-    for (let i = oldEndIdx; i < oldVnode.length; i++) {
-      parentElm.removeChild(oldVnode[i].elm)
+    for (let i = oldStartIdx; i <= oldEndIdx ; i++) {
+      if (oldVnode[i]) {
+        parentElm.removeChild(oldVnode[i].elm)
+      }
     }
   }
 

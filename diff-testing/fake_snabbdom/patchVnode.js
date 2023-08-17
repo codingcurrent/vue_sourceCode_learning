@@ -1,4 +1,5 @@
 import updateChildren from "./updateChildren"
+import createElm from "./createElm";
 // 该文件用于精细化比较：新旧虚拟节点为同一个节点
 // 注意：本文件只针对两个特例进行比较：
 // 即新节点要么只有文本 要么只有子节点 不存在二者皆有的情况
@@ -21,9 +22,11 @@ export default function patchVnode(oldVnode, newVnode) {
       oldVnode.elm.innerHTML = ''
       // ②将子节点的虚拟节点依次转换为dom，并插入旧dom树上
       for (let i = 0; i < newVnode.children.length; i++) {
-        let element = document.createElement(newVnode.children[i])
+        let element = createElm(newVnode.children[i])
         oldVnode?.elm?.appendChild(element)
       }
     }
   }
+  // 将旧dom赋值给新dom
+  newVnode.elm = oldVnode.elm
 }

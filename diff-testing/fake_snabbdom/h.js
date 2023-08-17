@@ -29,7 +29,7 @@ export default function h(sel, data, c) {
     }
     return vnode(sel, data, children, undefined, undefined)
     // 则为形态2
-  } else if(typeof c == 'object' && hasOwnProperty('sel')){
+  } else if(typeof c == 'object' && c.hasOwnProperty('sel')){
     // 则为形态3
     // 此时c为唯一的children,将其推入children数组即可
     let children = [c]
