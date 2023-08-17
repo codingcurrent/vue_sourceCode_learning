@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="content"></div>
+  <script src="/xuniPath/bound.js"></script>
+  <script>
+    let str = `
+    <div>
+        {{#students}}
+        <ol>
+            <li>姓名：{{name}}</li>
+            <li>年级：{{cla}}</li>
+            <li>性别：{{gender}}</li>
+            <li>爱好： 
+                {{#hobbies}}
+                    <div>{{.}}</div>
+                {{/hobbies}}
+            </li>
+        </ol>
+        {{/students}}
+    </div>
+    `
+    let data = {
+        students: [
+            {name: '小红',cla: '三年级', gender: '女', hobbies: ['唱歌', '跳舞']},
+            {name: '小明',cla: '四年级', gender: '男', hobbies: ['学习', '书法']}
+        ]
+    }
+    let divs = document.getElementById('content')
+    let domStr = renderTemplate.render(str, data);
+    divs.innerHTML = domStr;
+  </script>
+</body>
+</html>
