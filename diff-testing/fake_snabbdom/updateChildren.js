@@ -100,11 +100,11 @@ export default function updateChildren(parentElm, oldVnode, newVnode) {
   // 当旧节点的开始索引大于其结束索引时,即新节点未遍历完，则表示新节点有新增
   if(oldStartIdx >= oldEndIdx) {
     console.log('旧节点遍历完了，新节点还有剩余');
-    // 则遍历剩余新节点,依次插入到老节点的最后一个节点后面即可
+    // 则遍历剩余新节点,依次插入到老节点的开始节点前面即可
     for (let i = newStartIdx; i <= newEndIdx; i++) {
       // 先将新虚拟节点创建新dom
       let newDom = createElm(newVnode[i])
-      // 插入到老节点的开始节点后面
+      // 插入到老节点的开始节点前面
       parentElm.insertBefore(createElm(newVnode[i]), oldVnode[oldStartIdx].elm)
     }
   } else if(newStartIdx >= newEndIdx) {
